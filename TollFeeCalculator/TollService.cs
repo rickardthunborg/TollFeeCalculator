@@ -46,7 +46,8 @@ namespace TollFeeCalculator
         {
 
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday || date.Month == 7) return true;
-            bool isHoliday = new SwedenPublicHoliday().IsPublicHoliday(date);
+            bool isHoliday = new SwedenPublicHoliday().IsPublicHoliday(date); 
+            if(isHoliday) return true;
             bool isDayBeforeHoliday = new SwedenPublicHoliday().IsPublicHoliday(date.AddDays(1));
             return isDayBeforeHoliday;
         }
