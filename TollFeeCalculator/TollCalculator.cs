@@ -32,9 +32,9 @@ public class TollCalculator : ITollCalculator
 
             if (minutes <= 60)
             {
-                if (totalFee > 0 && (lastFee == tempFee || lastFee == 0)) totalFee -= tempFee;
+                if (totalFee > 0 && (lastFee <= tempFee || lastFee == 0)) totalFee -= tempFee;
 
-                else if(lastFee != tempFee && totalFee > 0) totalFee -= lastFee;
+                else if(totalFee > 0) totalFee -= lastFee;
 
                 if (nextFee >= tempFee) tempFee = nextFee;
 

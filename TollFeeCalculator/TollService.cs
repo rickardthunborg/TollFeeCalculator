@@ -36,7 +36,8 @@ namespace TollFeeCalculator
 
         public bool IsTollFreeVehicle(Vehicle vehicle)
         {
-            if (vehicle == null) return false;
+            if (vehicle == null) throw new Exception("Vehicle is null.");
+
             string vehicleType = vehicle.GetVehicleType();
             return TollFreeVehicleTypes.Contains(vehicleType);
         }
@@ -44,10 +45,13 @@ namespace TollFeeCalculator
 
         public bool IsTollFreeDate(DateTime date)
         {
+            if (date == null) throw new Exception("Date is null.");
 
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday || date.Month == 7) return true;
+
             bool isHoliday = new SwedenPublicHoliday().IsPublicHoliday(date); 
             if(isHoliday) return true;
+
             bool isDayBeforeHoliday = new SwedenPublicHoliday().IsPublicHoliday(date.AddDays(1));
             return isDayBeforeHoliday;
         }

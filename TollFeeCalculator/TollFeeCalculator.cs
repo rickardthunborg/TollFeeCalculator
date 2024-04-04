@@ -22,15 +22,12 @@ namespace TollFeeCalculator
             int hour = date.Hour;
             int minute = date.Minute;
 
-            var TollFeeTimeLookup = TollService.TollFeeTimeLookup;
+            var tollFeeTimeLookup = TollService.TollFeeTimeLookup;
 
-            foreach (var interval in TollFeeTimeLookup)
+            foreach (var interval in tollFeeTimeLookup)
             {
                 if (hour >= interval.StartHour && hour <= interval.EndHour &&
-                    minute >= interval.StartMinute && minute <= interval.EndMinute)
-                {
-                    return interval.TollFee;
-                }
+                    minute >= interval.StartMinute && minute <= interval.EndMinute) return interval.TollFee;
             }
 
             return 0;
