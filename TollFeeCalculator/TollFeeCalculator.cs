@@ -8,23 +8,33 @@ namespace TollFeeCalculator
 {
     public class TollFeeCalculator : ITollFeeCalculator
     {
+        public TollService TollService { get; set; }
+
+
+        public TollFeeCalculator(TollService tollService)
+        {
+            TollService = tollService;
+        }
         public int GetTollFee(DateTime date, Vehicle vehicle)
         {
-            if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle)) return 0;
+            if (TollService.IsTollFreeDate(date) || TollService.IsTollFreeVehicle(vehicle)) return 0;
 
             int hour = date.Hour;
             int minute = date.Minute;
 
-            if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-            else if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-            else if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-            else if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-            else if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;
-            else if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-            else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;
-            else if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-            else if (hour == 18 && minute >= 0 && minute <= 29) return 8;
-            else return 0;
+            var TollFeeTimeLookup = TollService.TollFeeTimeLookup;
+
+            foreach (var interval in TollFeeTimeLookup)
+            {
+                if (hour >= interval.StartHour && hour <= interval.EndHour &&
+                    minute >= interval.StartMinute && minute <= interval.EndMinute)
+                {
+                    return interval.TollFee;
+                }
+            }
+
+            return 0;
         }
     }
 }
+
