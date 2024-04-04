@@ -26,6 +26,11 @@ public class TollCalculator : ITollCalculator
             TimeSpan timeDifference = date - intervalStart;
             double minutes = timeDifference.TotalMinutes;
 
+            if(minutes < 0)
+            {
+                throw new Exception("Date was before previous one.");
+            }
+
             if (minutes <= 60)
             {
                 if (totalFee > 0 && (lastFee == tempFee || lastFee == 0)) {
