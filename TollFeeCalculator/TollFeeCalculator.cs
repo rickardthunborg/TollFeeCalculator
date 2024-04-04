@@ -26,8 +26,8 @@ namespace TollFeeCalculator
 
             foreach (var interval in tollFeeTimeLookup)
             {
-                if (hour >= interval.StartHour && hour <= interval.EndHour &&
-                    minute >= interval.StartMinute && minute <= interval.EndMinute) return interval.TollFee;
+                if ((hour > interval.StartHour || (hour == interval.StartHour && minute >= interval.StartMinute)) &&
+                    (hour < interval.EndHour || (hour == interval.EndHour && minute <= interval.EndMinute))) return interval.TollFee;
             }
 
             return 0;

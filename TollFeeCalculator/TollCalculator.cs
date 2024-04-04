@@ -38,6 +38,8 @@ public class TollCalculator : ITollCalculator
 
                 if (nextFee >= tempFee) tempFee = nextFee;
 
+                if (tempFee < lastFee) tempFee = lastFee;
+
                 totalFee += tempFee;
                 lastFee = nextFee;
             }
