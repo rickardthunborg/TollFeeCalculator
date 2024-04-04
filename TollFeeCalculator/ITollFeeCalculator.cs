@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TollFeeCalculator
 {
-    internal class Motorbike
+    public interface ITollFeeCalculator
     {
+        int GetTollFee(DateTime date, Vehicle vehicle);
     }
 }
