@@ -22,26 +22,22 @@ public class TollCalculator : ITollCalculator
             int nextFee = _feeCalculator.GetTollFee(date, vehicle);
             int tempFee = _feeCalculator.GetTollFee(intervalStart, vehicle);
             
-
             TimeSpan timeDifference = date - intervalStart;
             double minutes = timeDifference.TotalMinutes;
 
-            if(minutes < 0)
+            if (dates[0].Year != date.Year || dates[0].Month != date.Month || dates[0].Day != date.Day)
             {
-                throw new Exception("Date was before previous one.");
+                throw new Exception("Cannot process multiple days");
             }
 
             if (minutes <= 60)
             {
-                if (totalFee > 0 && (lastFee == tempFee || lastFee == 0)) {
-                    totalFee -= tempFee;
-                }
-                else if(lastFee != tempFee && totalFee > 0) 
-                {
-                    totalFee -= lastFee;
-                }
+                if (totalFee > 0 && (lastFee == tempFee || lastFee == 0)) totalFee -= tempFee;
+
+                else if(lastFee != tempFee && totalFee > 0) totalFee -= lastFee;
 
                 if (nextFee >= tempFee) tempFee = nextFee;
+
                 totalFee += tempFee;
                 lastFee = nextFee;
             }
