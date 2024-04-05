@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Date.cs" />
+    <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Vehicles\Car.cs" />
     <Compile Include="ITollCalculator.cs" />
     <Compile Include="ITollFeeCalculator.cs" />
