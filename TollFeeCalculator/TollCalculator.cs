@@ -16,7 +16,7 @@ public class TollCalculator : ITollCalculator
     {
         DateTime intervalStart = dates[0];
         int totalFee = 0;
-        int lastFee = 0; // By adding lastFee we can check for cases where the previous fee is higher or lower than the interalStart's is and approriately remove the highest fee we have added so far.
+        int highestFee = 0; // By adding lastFee we can check for cases where the previous fee is higher or lower than the interalStart's is and approriately remove the highest fee we have added so far.
         foreach (DateTime date in dates)
         {
             int nextFee = _feeCalculator.GetTollFee(date, vehicle);
@@ -32,22 +32,29 @@ public class TollCalculator : ITollCalculator
 
             if (minutes <= 60)
             {
-                if (totalFee > 0 && (lastFee <= tempFee || lastFee == 0)) totalFee -= tempFee;
+                if(highestFee > nextFee)
+                {
+                    continue;
+                }
+                else 
+                {
+                if (totalFee > 0 && (highestFee <= tempFee || highestFee == 0)) totalFee -= tempFee;
 
-                else if(totalFee > 0) totalFee -= lastFee;
+                else if(totalFee > 0) totalFee -= highestFee;
 
                 if (nextFee >= tempFee) tempFee = nextFee;
 
-                if (tempFee < lastFee) tempFee = lastFee;
+                if (tempFee < highestFee) tempFee = highestFee;
 
                 totalFee += tempFee;
-                lastFee = nextFee;
+                if(highestFee < tempFee) highestFee = tempFee;
+                }
             }
             else
             {
                 totalFee += nextFee;
                 intervalStart = date;
-                lastFee = 0;
+                highestFee = 0;
             }
         }
         if (totalFee > 60) totalFee = 60;
