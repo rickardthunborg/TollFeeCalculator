@@ -16,13 +16,13 @@ public class TollCalculator : ITollCalculator
     {
         DateTime intervalStart = dates[0];
         int totalFee = 0;
-        int lastFee = 0;
+        int lastFee = 0; // By adding lastFee we can check for cases where the previous fee is higher or lower than the interalStart's is and approriately remove the highest fee we have added so far.
         foreach (DateTime date in dates)
         {
             int nextFee = _feeCalculator.GetTollFee(date, vehicle);
             int tempFee = _feeCalculator.GetTollFee(intervalStart, vehicle);
             
-            TimeSpan timeDifference = date - intervalStart;
+            TimeSpan timeDifference = date - intervalStart; 
             double minutes = timeDifference.TotalMinutes;
 
             if (dates[0].Year != date.Year || dates[0].Month != date.Month || dates[0].Day != date.Day)

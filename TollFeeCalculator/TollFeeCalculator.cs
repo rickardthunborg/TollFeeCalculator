@@ -32,6 +32,7 @@ namespace TollFeeCalculator
 
             return 0;
         }
-    }
+    } //By separating the toll calculator into more than one class we allow the solution to adhere to single responsibility principles, letting us keep classes focused on a single task
+      //instead of grouping them together, which could lead to confusion when more code is developed and the solution gets more complicated.
 }
 
