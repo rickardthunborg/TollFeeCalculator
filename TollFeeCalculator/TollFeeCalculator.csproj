@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Date.cs" />
+    <Compile Include="Models\TollRecord.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Vehicles\Car.cs" />
     <Compile Include="ITollCalculator.cs" />
