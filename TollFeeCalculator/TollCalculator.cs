@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using TollFeeCalculator;
 
 public class TollCalculator : ITollCalculator
@@ -14,13 +15,19 @@ public class TollCalculator : ITollCalculator
 
     public int GetTollFee(Vehicle vehicle, DateTime[] dates)
     {
+        dates = dates.OrderBy(d => d.TimeOfDay).ToArray();
         DateTime intervalStart = dates[0];
         int totalFee = 0;
         int highestFee = 0; // By adding lastFee we can check for cases where the previous fee is higher or lower than the interalStart's is and approriately remove the highest fee we have added so far.
         foreach (DateTime date in dates)
         {
+            if (totalFee > 60)
+            {
+                totalFee = 60;
+                return totalFee;
+            }
+
             int nextFee = _feeCalculator.GetTollFee(date, vehicle);
-            int tempFee = _feeCalculator.GetTollFee(intervalStart, vehicle);
             
             TimeSpan timeDifference = date - intervalStart; 
             double minutes = timeDifference.TotalMinutes;
@@ -38,26 +45,19 @@ public class TollCalculator : ITollCalculator
                 }
                 else 
                 {
-                if (totalFee > 0 && (highestFee <= tempFee || highestFee == 0)) totalFee -= tempFee;
-
-                else if(totalFee > 0) totalFee -= highestFee;
-
-                if (nextFee >= tempFee) tempFee = nextFee;
-
-                if (tempFee < highestFee) tempFee = highestFee;
-
-                totalFee += tempFee;
-                if(highestFee < tempFee) highestFee = tempFee;
+                    totalFee -= highestFee;
+                    totalFee += nextFee;
+                    highestFee = nextFee;
                 }
             }
             else
             {
                 totalFee += nextFee;
                 intervalStart = date;
-                highestFee = 0;
+                highestFee = 0 + nextFee;
             }
         }
-        if (totalFee > 60) totalFee = 60;
+        
         return totalFee;
     }
 

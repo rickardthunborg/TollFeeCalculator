@@ -23,6 +23,10 @@ namespace TollFeeCalculator
                  new DateTime(2024, 10, 28, 6, 59, 0),
                  new DateTime(2024, 10, 28, 7, 12, 0),
                  new DateTime(2024, 10, 28, 8, 39, 0),
+                 new DateTime(2024, 10, 28, 15, 0, 0),
+                 new DateTime(2024, 10, 28, 15, 21, 0),
+                 new DateTime(2024, 10, 28, 15, 31, 0),
+                 new DateTime(2024, 10, 28, 15, 41, 0),
 
             };
 

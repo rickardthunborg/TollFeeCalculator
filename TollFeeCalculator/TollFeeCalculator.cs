@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TollFeeCalculator.Models;
+
 
 namespace TollFeeCalculator
 {
@@ -17,17 +19,14 @@ namespace TollFeeCalculator
         }
         public int GetTollFee(DateTime date, Vehicle vehicle)
         {
-            if (TollService.IsTollFreeDate(date) || TollService.IsTollFreeVehicle(vehicle)) return 0;
-
-            int hour = date.Hour;
-            int minute = date.Minute;
+            if (TollService.IsTollFreeDate(date) || vehicle.IsTollFree) return 0;
 
             var tollFeeTimeLookup = TollService.TollFeeTimeLookup;
 
             foreach (var interval in tollFeeTimeLookup)
             {
-                if ((hour > interval.StartHour || (hour == interval.StartHour && minute >= interval.StartMinute)) &&
-                    (hour < interval.EndHour || (hour == interval.EndHour && minute <= interval.EndMinute))) return interval.TollFee;
+                if ((date.Hour > interval.StartHour || (date.Hour == interval.StartHour && date.Minute >= interval.StartMinute)) &&
+                    (date.Hour < interval.EndHour || (date.Hour == interval.EndHour && date.Minute <= interval.EndMinute))) return interval.TollFee;
             }
 
             return 0;

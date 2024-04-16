@@ -9,12 +9,16 @@ namespace TollFeeCalculator.Models
     public class Vehicle
     {
         public int Id { get; set; }
+        public string RegistrationNumber { get; set; }
+        public string VehicleType { get; set; }
+        public bool IsTollFree { get; set; }
 
-        public string VehicleType { get; private set; }
-
-        public Vehicle(string vehicleType)
+        public Vehicle(int id, string registrationNumber, string vehicleType, bool isTollFree)
         {
+            Id = id;
+            RegistrationNumber = registrationNumber;
             VehicleType = vehicleType;
+            IsTollFree = isTollFree;
         }
     }
 }
